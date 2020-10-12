@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+echo "Hello World!"
+# $1 バックアップ対象
+# $2 バックアップ先
+# $3 ロテート日数
+backup_src=$1
+backup_dst=$2
+rotate=$3
+
+today=`date "+%Y%m%d"`
+del_day=`date "+%Y%m%d" --date "$rotate days ago"`
+
+echo "${backup_src}_${today}"
+file_name="${backup_src}_${today}.zip"
+del_name="${backup_src}_${del_day}.zip"
+zip -r "${file_name}" ${backup_src}
+mv ${file_name} ${backup_dst}
+rm -f "${backup_dst}/${del_name}"
